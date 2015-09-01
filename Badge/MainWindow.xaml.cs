@@ -24,5 +24,27 @@ namespace Badge
         {
             InitializeComponent();
         }
+
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+        private void ButtonGo_Click(object sender, RoutedEventArgs e)
+        {
+            HealtherTogether ht = new HealtherTogether();
+
+            statusPanel1.Content = "Updating HealtherTogether Badge tracking.";
+            if (ht.Login())
+            {
+                ;
+            }
+
+            ht.Logoff();
+            statusPanel1.Content = "Done!";
+        }
+
     }
 }
