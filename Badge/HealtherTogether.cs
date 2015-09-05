@@ -1,4 +1,5 @@
 ﻿using System;
+using NLog;                         // Note: 'NLog Configuration' is not needed.
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
 
@@ -10,6 +11,7 @@ namespace Badge
         private static readonly string HealtherTogetherURL = "https://www.medtronichealthiertogether.com/";
         private static readonly string TEMP_Username = "JNygren";
         private static readonly string TEMP_Password = "VMN6p*B6";
+        private Logger logger = LogManager.GetCurrentClassLogger();
 
 
         public HealtherTogether()
@@ -29,6 +31,7 @@ namespace Badge
                 driver.Url = HealtherTogetherURL;
 
                 // Home Page
+                logger.Debug("{0}", "In HealtherTogether.Login()");
                 driver.FindElement(HTPage.BtnSpouseLogin).Click();
 
                 // Login Page
