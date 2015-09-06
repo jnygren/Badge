@@ -1,14 +1,12 @@
 ﻿using System;
 using NLog;                         // Note: 'NLog Configuration' is not needed.
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 
 namespace Badge
 {
     class HealtherTogether
     {
-        private static IWebDriver driver = null;
         private static readonly string HealtherTogetherURL = "https://www.medtronichealthiertogether.com/";
+        private static readonly string HealtherTogetherURL2 = "http://www.medtronichealthiertogether.com/members/healthyhabits/3";
         private static readonly string TEMP_Username = "JNygren";
         private static readonly string TEMP_Password = "VMN6p*B6";
         private Logger logger = LogManager.GetCurrentClassLogger();
@@ -16,46 +14,59 @@ namespace Badge
 
         public HealtherTogether()
         {
-            driver = new FirefoxDriver();
+            Page.OpenUrl(HealtherTogetherURL);
         }
 
 
+        /// <summary>
+        /// Login to HealthierTogether
+        /// </summary>
+        /// <returns></returns>
         public bool Login()
         {
             bool result = true;
 
-            if (driver == null)
-                result = false;
-            else
+            logger.Debug("{0}", "In HealtherTogether.Login()");
+
+            // Home Page
+            //Page.Click(HTPage.BtnEmpLogin);
+            Page.Click(HTPage.BtnSpouseLogin);
+
+            // Login Page
+            if (Page.WaitForTheElement(HTPage.BtnLogin))
             {
-                driver.Url = HealtherTogetherURL;
+                Page.EnterText(HTPage.TxtUsername, TEMP_Username);
+                Page.EnterText(HTPage.TxtPassword, TEMP_Password);
+                Page.Click(HTPage.BtnLogin);
 
-                // Home Page
-                logger.Debug("{0}", "In HealtherTogether.Login()");
-                driver.FindElement(HTPage.BtnSpouseLogin).Click();
-
-                // Login Page
-                IWebElement btnLogin = driver.FindElement(HTPage.BtnLogin);
-                driver.FindElement(HTPage.TxtUsername).SendKeys(TEMP_Username);
-                driver.FindElement(HTPage.TxtPassword).SendKeys(TEMP_Password);
-                btnLogin.Click();
             }
+            else
+                result = false;
 
             return result;
         }
 
 
+        /// <summary>
+        /// Logoff HealthierTogether web site
+        /// </summary>
         public void Logoff()
         {
-            if (driver != null)
+            if (Page.WaitForTheElement(HTPage.DDUserLinks))
             {
-                IWebElement dd = driver.FindElement(HTPage.DDUserLinks);
-                dd.Click();
-                driver.FindElement(HTPage.LinkLogout).Click();
-
-                driver.Quit();
-                driver = null;
+                Page.Click(HTPage.DDUserLinks);
+                if (Page.WaitForTheElement(HTPage.LinkLogout))
+                    Page.Click(HTPage.LinkLogout);
             }
+        }
+
+
+        /// <summary>
+        /// Close browser
+        /// </summary>
+        public void Close()
+        {
+            Page.CloseBrowser();
         }
 
     }

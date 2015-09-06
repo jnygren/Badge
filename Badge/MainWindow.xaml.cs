@@ -43,6 +43,7 @@ namespace Badge
             }
 
             ht.Logoff();
+            ht.Close();
             statusPanel1.Content = "Done!";
         }
 
