@@ -605,7 +605,14 @@ namespace Badge
                 }
             }
         }
+#endif
 
+        public static string GetTitle()
+        {
+            return Driver.Title;
+        }
+
+#if OLD
         public static string GetText(By by)
         {
             if(IsElementPresent(by))
@@ -663,6 +670,7 @@ namespace Badge
             request.CookieContainer.SetCookies(uri, Page.GetPageCookies(cookies));
             return request.GetResponse().GetResponseStream();
         }
+
         public static string GetTextInPages(By select, By textElement)
         {
             if (IsElementPresent(textElement))
