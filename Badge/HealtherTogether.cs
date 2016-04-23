@@ -7,8 +7,8 @@ namespace Badge
     {
         private static readonly string HealtherTogetherURL = "https://www.medtronichealthiertogether.com/";
         private static readonly string HealtherTogetherURL2 = "http://www.medtronichealthiertogether.com/members/healthyhabits/3";
-        private static readonly string TEMP_Username = "JNygren";
-        private static readonly string TEMP_Password = "VMN6p*B6";
+        private static readonly string TEMP_Username = "username";
+        private static readonly string TEMP_Password = "password";
         private Logger logger = LogManager.GetCurrentClassLogger();
 
 
