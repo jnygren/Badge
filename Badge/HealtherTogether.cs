@@ -12,7 +12,9 @@ namespace Badge
         private string TEMP_Password = "password";
         private Logger logger = LogManager.GetCurrentClassLogger();
 
-
+        /// <summary>
+        /// c'tor
+        /// </summary>
         public HealtherTogether()
         {
             // Retrieve Username/Password from 'App.config'.
@@ -28,22 +30,21 @@ namespace Badge
         /// <summary>
         /// Login to HealthierTogether
         /// </summary>
-        /// <returns></returns>
         public bool Login()
         {
             bool result = true;
 
-            logger.Debug("{0}\r\n", "In HealtherTogether.Login()");
+            logger.Debug("In HealtherTogether.Login()");
 
             // Home Page
             if (Page.WaitForTheElement(HTPage.hdrWelcome))
-                logger.Info("Successfully reached 'Home' page.");
+                logger.Info("  Successfully reached 'Home' page.");
             //Page.Click(HTPage.BtnEmpLogin);
             Page.Click(HTPage.BtnSpouseLogin);
 
             // Login Page
             if (Page.WaitForTheElement(HTPage.hdrLogin))
-                logger.Info("Successfully reached 'Login' page.");
+                logger.Info("  Successfully reached 'Login' page.");
             if (Page.WaitForTheElement(HTPage.BtnLogin))
             {
                 Page.EnterText(HTPage.TxtUsername, TEMP_Username);
@@ -63,19 +64,25 @@ namespace Badge
         /// </summary>
         public void Track()
         {
+            logger.Debug("In HealtherTogether.Track()");
+
             // Members Page
             //if (Page.WaitForTheElement(HTPage.titleMembers))
             if (Page.GetTitle().Equals("Members"))
-                logger.Info("Successfully reached 'Members' page.");
+                logger.Info("  Successfully reached 'Members' page.");
+            // Tracking tab
             Page.Click(HTPage.LinkTrack);
 
 
             // Data Tracking page
             if (Page.WaitForTheElement(HTPage.H2Tracking))
             {
-                logger.Info("Successfully reached 'Data Tracking' page.");
+                logger.Info("  Successfully reached 'Data Tracking' page.");
+                // Enter values for 'Exercise', 'Stress Reduction', ...
                 Page.EnterText(HTPage.InpStressReduction, "1");
                 Pause(1000);
+
+                // Save entries (or not). User remains on tracking tab.
                 //Page.Click(HTPage.BtnReset);
                 Page.Click(HTPage.BtnSave);
                 Pause();
@@ -91,6 +98,9 @@ namespace Badge
         /// </summary>
         public void Logoff()
         {
+            logger.Debug("In HealtherTogether.Logoff()");
+
+            // Dropdown menu of user links
             if (Page.WaitForTheElement(HTPage.DDUserLinks))
             {
                 Page.Click(HTPage.DDUserLinks);
@@ -98,7 +108,7 @@ namespace Badge
                     Page.Click(HTPage.LinkLogout);
                 Pause();
                 if (Page.WaitForTheElement(HTPage.hdrWelcome))
-                    logger.Info("Successfully logged off from HealtherTogether.");
+                    logger.Info("  Successfully logged off from HealtherTogether.");
             }
         }
 

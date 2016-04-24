@@ -1,17 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Diagnostics;
 using NLog;
 
 namespace Badge
@@ -23,19 +12,27 @@ namespace Badge
     {
         private Logger logger = LogManager.GetCurrentClassLogger();
 
-
+        /// <summary>
+        /// c'tor
+        /// </summary>
         public MainWindow()
         {
             InitializeComponent();
         }
 
 
+        /// <summary>
+        /// Window Loaded event handler
+        /// </summary>
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
 
 
+        /// <summary>
+        /// 'Go' button handler
+        /// </summary>
         private void ButtonGo_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -51,6 +48,7 @@ namespace Badge
                 ht.Logoff();
                 ht.Close();
                 statusPanel1.Content = "Done!";
+                logger.Info("  --- Badge tracking entry complete. ---\r\n");
             }
             catch (Exception ex)
             {
@@ -58,6 +56,36 @@ namespace Badge
                 statusPanel1.Content = string.Format("Error in HealtherTogether. {0}", ex.Message);
             }
         }
+
+
+        /// <summary>
+        /// 'File - View Log' menu item handler
+        /// </summary>
+        private void ViewLog_Click(object sender, RoutedEventArgs e)
+        {
+            NLog.Targets.FileTarget fileTarget = (NLog.Targets.FileTarget)LogManager.Configuration.FindTargetByName("file");
+            string logfile = fileTarget.FileName.Render(new LogEventInfo());
+            Process.Start(logfile);     // Open logfile in default viewer
+        }
+
+
+        /// <summary>
+        /// 'Help - Help' menu item handler
+        /// </summary>
+        private void Help_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Help is not yet implemented.", "Help");
+        }
+
+
+        /// <summary>
+        /// 'Help - About' menu item handler
+        /// </summary>
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("About box is not yet implemented.", "About Badge");
+        }
+
 
     }
 }
