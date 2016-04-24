@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using NLog;                         // Note: 'NLog Configuration' is not needed.
 
 namespace Badge
@@ -7,13 +8,19 @@ namespace Badge
     {
         private static readonly string HealtherTogetherURL = "https://www.medtronichealthiertogether.com/";
         private static readonly string HealtherTogetherURL2 = "http://www.medtronichealthiertogether.com/members/healthyhabits/3";
-        private static readonly string TEMP_Username = "username";
-        private static readonly string TEMP_Password = "password";
+        private string TEMP_Username = "username";
+        private string TEMP_Password = "password";
         private Logger logger = LogManager.GetCurrentClassLogger();
 
 
         public HealtherTogether()
         {
+            // Retrieve Username/Password from 'App.config'.
+            if (string.IsNullOrEmpty(TEMP_Username = ConfigurationManager.AppSettings["HTUsername"]))
+                TEMP_Username = "(Username not configured.)";
+            if (string.IsNullOrEmpty(TEMP_Password = ConfigurationManager.AppSettings["HTPassword"]))
+                TEMP_Password = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+
             Page.OpenUrl(HealtherTogetherURL);
         }
 
@@ -26,7 +33,7 @@ namespace Badge
         {
             bool result = true;
 
-            logger.Debug("{0}", "In HealtherTogether.Login()");
+            logger.Debug("{0}\r\n", "In HealtherTogether.Login()");
 
             // Home Page
             if (Page.WaitForTheElement(HTPage.hdrWelcome))
