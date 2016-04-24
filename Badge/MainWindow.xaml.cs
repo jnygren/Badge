@@ -40,21 +40,22 @@ namespace Badge
         {
             try
             {
-            HealtherTogether ht = new HealtherTogether();
+                HealtherTogether ht = new HealtherTogether();
 
-            statusPanel1.Content = "Updating HealtherTogether Badge tracking.";
-            if (ht.Login())
-            {
-                ht.Track();
-            }
+                statusPanel1.Content = "Updating HealtherTogether Badge tracking.";
+                if (ht.Login())
+                {
+                    ht.Track();
+                }
 
-            ht.Logoff();
-            ht.Close();
-            statusPanel1.Content = "Done!";
+                ht.Logoff();
+                ht.Close();
+                statusPanel1.Content = "Done!";
             }
             catch (Exception ex)
             {
                 logger.Error(ex, "Error in HealtherTogether. {0}", ex.Message);
+                statusPanel1.Content = string.Format("Error in HealtherTogether. {0}", ex.Message);
             }
         }
 
