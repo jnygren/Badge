@@ -6,9 +6,11 @@ namespace Badge
     public class HTPage
     {
         // Home page
-        public static By hdrWelcome = By.XPath("//div[@class='welcome-header']/h1[contains(text(), 'Welcome')]");
-        public static By BtnEmpLogin = By.Id("login-text");
-        public static By BtnSpouseLogin = By.Id("spouse-text");
+        public static By hdrWelcome = By.XPath("//div[@class='welcome-header']/h1[contains(text(), 'WELCOME TO')]");
+        //public static By BtnEmpLogin = By.Id("login-text");
+        public static By BtnEmpLogin = By.XPath("//a[text()='EMPLOYEE LOG IN']");
+        //public static By BtnSpouseLogin = By.Id("spouse-text");
+        public static By BtnSpouseLogin = By.XPath("//a[text()='SPOUSE LOG IN']");
 
         // Login page
         public static By hdrLogin = By.Id("Login");
